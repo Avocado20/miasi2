@@ -18,8 +18,6 @@ public class AirCraftSystem extends Thread {
         this.sleep();
     }
 
-
-
     protected void initializeWeatherAgent() {
         weatherAgent = new Thread(new WeatherAgent());
         weatherAgent.start();
@@ -39,11 +37,18 @@ public class AirCraftSystem extends Thread {
         airCrafts.add(new AirCraftAgent().setID(4).setMaxFuelAmount(600).setCurrentFuelAmount(200).setBasicLandingTime(5).setOnTheFlight(true));
         airCrafts.add(new AirCraftAgent().setID(5).setMaxFuelAmount(800).setCurrentFuelAmount(700).setBasicLandingTime(15).setOnTheFlight(true));
 
+
        for (AirCraftAgent airCraft : airCrafts) {
+           for (AirCraftAgent other : airCrafts) {
+               if (other != airCraft) {
+                   airCraft.addOtherAgent(other);
+               }
+           }
            Thread air = new Thread(airCraft);
            airCraftAgents.add(air);
            air.start();
        }
+
     }
 
     protected void sleep() {
