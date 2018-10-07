@@ -7,8 +7,8 @@ import java.util.List;
 
 public class AirCraftSystem extends Thread {
 
-    private Thread weatherAgent;
-    private Thread airportAgent;
+    private WeatherAgent weatherAgent;
+    private AirPortAgent airportAgent;
     private List<Thread> airCraftAgents = new ArrayList<Thread>();
 
     public void run() {
@@ -19,14 +19,15 @@ public class AirCraftSystem extends Thread {
     }
 
     protected void initializeWeatherAgent() {
-        weatherAgent = new Thread(new WeatherAgent());
-        weatherAgent.start();
+        this.weatherAgent = new WeatherAgent();
+        Thread weatherThread = new Thread(this.weatherAgent);
+        weatherThread.start();
     }
 
     protected void initAirportAgent() {
-        airportAgent = new Thread(new AirPortAgent());
-        airportAgent.start();
-
+        this.airportAgent = new AirPortAgent();
+        Thread airportThread = new Thread(this.airportAgent);
+        airportThread.start();
     }
 
     protected  void initializeAirCraftAgents() {
@@ -44,6 +45,8 @@ public class AirCraftSystem extends Thread {
                    airCraft.addOtherAgent(other);
                }
            }
+           airCraft.setAirPortAgent(this.airportAgent);
+           airCraft.setWeatherAgent(this.weatherAgent);
            Thread air = new Thread(airCraft);
            airCraftAgents.add(air);
            air.start();

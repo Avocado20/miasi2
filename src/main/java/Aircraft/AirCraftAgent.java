@@ -1,6 +1,8 @@
 package Aircraft;
 
+import AirPort.AirPortAgent;
 import Params.RunningParams;
+import Weather.WeatherAgent;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -20,6 +22,9 @@ public class AirCraftAgent implements Runnable, Cloneable {
     private boolean isOnTheFlight;
     private boolean takeOfRequest = false;
     private boolean takeOnRequest = false;
+    private AirPortAgent airPortAgent;
+    private WeatherAgent weatherAgent;
+
 
     private List<AirCraftAgent> otherAirCrafts = new ArrayList<AirCraftAgent>();
 
