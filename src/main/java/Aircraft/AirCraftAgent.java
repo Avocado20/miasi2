@@ -35,6 +35,7 @@ public class AirCraftAgent implements Runnable, Cloneable {
             this.tryToTakeOn();
             this.tryToTakeOff();
             this.getInformationFromOtherAgents();
+            this.setFuel();
             this.sleep();
         }
     }
@@ -67,6 +68,18 @@ public class AirCraftAgent implements Runnable, Cloneable {
 
     public void addOtherAgent(final AirCraftAgent airCraftAgent) {
         this.otherAirCrafts.add(airCraftAgent);
+    }
+
+    public void setFuel() {
+        if (this.isOnTheFlight()) {
+            this.setCurrentFuelAmount(this.getCurrentFuelAmount() - 1);
+        } else {
+            this.setCurrentFuelAmount(this.getMaxFuelAmount());
+        }
+        if (this.currentFuelAmount < 1 && this.isOnTheFlight()) {
+            System.out.println("AirCraft " + this.getID() + " crashed with no survivors");
+            this.setOnTheFlight(false);
+        }
     }
 
     private void sleep() {
