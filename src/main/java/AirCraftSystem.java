@@ -36,7 +36,7 @@ public class AirCraftSystem extends Thread {
         List<AirCraftAgent> airCrafts = new ArrayList<AirCraftAgent>();
         airCrafts.add(new AirCraftAgent().setID(1).setMaxFuelAmount(200).setCurrentFuelAmount(180).setBasicLandingTime(25).setOnTheFlight(true));
         airCrafts.add(new AirCraftAgent().setID(2).setMaxFuelAmount(300).setCurrentFuelAmount(200).setBasicLandingTime(35).setOnTheFlight(false));
-        airCrafts.add(new AirCraftAgent().setID(3).setMaxFuelAmount(400).setCurrentFuelAmount(100).setBasicLandingTime(50).setOnTheFlight(true));
+        airCrafts.add(new AirCraftAgent().setID(3).setMaxFuelAmount(800).setCurrentFuelAmount(600).setBasicLandingTime(50).setOnTheFlight(true));
         airCrafts.add(new AirCraftAgent().setID(4).setMaxFuelAmount(600).setCurrentFuelAmount(200).setBasicLandingTime(5).setOnTheFlight(true));
         airCrafts.add(new AirCraftAgent().setID(5).setMaxFuelAmount(800).setCurrentFuelAmount(700).setBasicLandingTime(15).setOnTheFlight(true));
         this.initAirCraftThread(airCrafts);
