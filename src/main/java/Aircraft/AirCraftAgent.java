@@ -28,6 +28,7 @@ public class AirCraftAgent implements Runnable, Cloneable {
     private boolean amILandindNext = false;
     private boolean amIStartingNext = false;
     private int currentProcedureTime = 0;
+    private boolean isCrashed = false;
 
 
     private List<AirCraftAgent> otherAirCrafts = new ArrayList<AirCraftAgent>();
@@ -53,7 +54,7 @@ public class AirCraftAgent implements Runnable, Cloneable {
      * 
      */
     private void tryToTakeOn() {
-        if(this.isOnTheFlight()) {
+        if(this.isOnTheFlight() && !this.isCrashed) {
             if (!this.takeOnRequest) {
                 Random random = new Random();
                 int var = Math.abs(random.nextInt() % 5);
@@ -92,7 +93,7 @@ public class AirCraftAgent implements Runnable, Cloneable {
      *
      */
     private void tryToTakeOff() {
-        if (!this.isOnTheFlight()) {
+        if (!this.isOnTheFlight() && !this.isCrashed) {
             if (!this.takeOfRequest) {
                 Random random = new Random();
                 int var = Math.abs(random.nextInt() % 5);
@@ -120,7 +121,7 @@ public class AirCraftAgent implements Runnable, Cloneable {
                     this.amIStartingNext = false;
                     this.airPortAgent.start();
                     this.setOnTheFlight(true);
-                    System.out.println(this.getID() + " started");
+                    System.out.println("AirCraft " + this.getID() + " started");
                 }
             }
         }
@@ -129,7 +130,7 @@ public class AirCraftAgent implements Runnable, Cloneable {
     public void setTakeOnRequest(boolean isSet) {
         this.takeOnRequest = isSet;
         if (isSet) {
-            System.out.println(this.getID() + " wants to Land");
+            System.out.println("AirCraft " + this.getID() + " wants to Land");
         }
     }
 
@@ -176,6 +177,7 @@ public class AirCraftAgent implements Runnable, Cloneable {
         }
         if (this.currentFuelAmount < 1 && this.isOnTheFlight()) {
             System.out.println("AirCraft " + this.getID() + " crashed with no survivors");
+            this.isCrashed = true;
             this.setOnTheFlight(false);
         }
     }
