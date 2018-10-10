@@ -7,6 +7,8 @@ Poszczególni agenci symulowani są przez wątki działające niezależnie od si
 Metoda AirCraftSystem -> initializeAirCraftAgents() decyduje, ilu agentów samolotów ma powstać.
 
 "Stan środowiska" jest symulowany przez fakt, że każdy AirCraft agent ma referencje do reszty agentów. Metoda getInformationFromOtherAgents() symuluje pobierania informacji o innych agentach.
+Częstotliwość czasu wstrzymania agentów można ustawić w klasie RunningParams.
+
 
 Agenci w systemie.
 1. AirCraft agent: agent samolotu, który wyraża chęć startowania/lądowania/latania. Na przestrzeni czasu zmienia on cel działania.
