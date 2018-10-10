@@ -5,13 +5,15 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
 @Accessors(chain = true)
-public class AirCraftSystem extends Thread {
+public class AirCraftSystem extends Thread implements Runnable {
 
     private WeatherAgent weatherAgent;
     private AirPortAgent airportAgent;
@@ -22,6 +24,7 @@ public class AirCraftSystem extends Thread {
         this.initializeWeatherAgent();
         this.initAirportAgent();
         this.initializeAirCraftAgents();
+        this.run();
     }
 
     protected void initializeWeatherAgent() {
@@ -60,5 +63,43 @@ public class AirCraftSystem extends Thread {
             new Thread(airCraft).start();
         }
     }
+
+    public void run() {
+        int width = 1800;
+        String[] columns = {"ID", "maxFuelAmount", "currentFuelAmount", "basicLandingTime", "isOnTheFlight",
+                "takeOfRequest", "takeOnRequest", "amILandindNext", "amIStartingNext", "currentProcedureTime", "isCrashed"};
+        Object[][] data = new Object[airCrafts.size()+1][11];
+        JFrame frame = new JFrame("AirCraft system");
+        JPanel panel = new JPanel();
+        panel.setLayout(new FlowLayout());
+        JTable table = new JTable(data, columns);
+        table.setSize(width, 500);
+        panel.add(table);
+        frame.add(panel);
+        frame.setSize(width, 500);
+        frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        while(true) {
+            for (int i = 0; i < columns.length; i++) {
+                table.getColumnModel().getColumn(i).setPreferredWidth(width / 11);
+                data[0][i] = columns[i];
+            }
+            for (AirCraftAgent agent : airCrafts) {
+                data[airCrafts.indexOf(agent)+1][0] = agent.getID();
+                data[airCrafts.indexOf(agent)+1][1] = agent.getMaxFuelAmount();
+                data[airCrafts.indexOf(agent)+1][2] = agent.getCurrentFuelAmount();
+                data[airCrafts.indexOf(agent)+1][3] = agent.getBasicLandingTime();
+                data[airCrafts.indexOf(agent)+1][4] = agent.isOnTheFlight();
+                data[airCrafts.indexOf(agent)+1][5] = agent.isTakeOfRequest();
+                data[airCrafts.indexOf(agent)+1][6] = agent.isTakeOnRequest();
+                data[airCrafts.indexOf(agent)+1][7] = agent.isAmILandindNext();
+                data[airCrafts.indexOf(agent)+1][8] = agent.isAmIStartingNext();
+                data[airCrafts.indexOf(agent)+1][9] = agent.getCurrentProcedureTime();
+                data[airCrafts.indexOf(agent)+1][10] = agent.isCrashed();
+            }
+            table.repaint();
+       }
+   }
 
 }
